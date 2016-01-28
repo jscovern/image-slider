@@ -3,43 +3,35 @@ $(document).ready(function() {
   var autoPlayInterval;
 
   function showNextImage() {
-    var currentImageNode = $('img:visible').get(0);
-    var allImages = $('img').get();
+    var currentImageNode = $('div.header img:visible').get(0);
+    var allImages = $('div.header img').get();
     var currentIndex = allImages.indexOf(currentImageNode);
-    var nextIndex = (currentIndex + 1) % $('img').length;
-    // var nextIndex = currentIndex + 1;
-    //
-    // if (nextIndex >= $('img').length) {
-    //   nextIndex = 0;
-    // }
-
+    var nextIndex = (currentIndex + 1) % $('div.header img').length;
     $(currentImageNode).hide();
-
-    var nextImageNode = $('img').get(nextIndex);
+    var nextImageNode = $('div.header img').get(nextIndex);
     $(nextImageNode).show();
   }
 
-  $('img').hide();
-  // $('img:eq(0)').show();
-  // $($('img').get(0)).show();
-  // $('img:first').show();
-  $('img').first().show();
+  $('div.header img').hide();
+  $('div.header img').first().show();
 
-  $('img').on('click', function() {
-    showNextImage();
-  });
+  $('div.header img').on('click', showNextImage);
 
-  $('.start').on('click', function() {
-
+  function startPlay() {
+    $('div.header img').off('click', showNextImage);
     autoPlayInterval = setInterval(function() {
       showNextImage();
     }, 1000);
+  }
 
-  });
-
-  $('.stop').on('click', function() {
+  function stopPlay() {
     clearInterval(autoPlayInterval);
-  });
+    $('div.header img').on('click', showNextImage);
+  }
+
+  $('.start').on('click',startPlay);
+
+  $('.stop').on('click', stopPlay);
 
 
 });
